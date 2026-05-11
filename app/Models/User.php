@@ -44,9 +44,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(ShortUrl::class);
     }
-
-    public function invitations()
-    {
-        return $this->hasMany(Invitation::class, 'invited_by');
-    }
 }
