@@ -1,58 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# URL Shortener
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based URL shortening service with role-based access control.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.2+
+- Laravel 11
+- MySQL
+- Bootstrap 5
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2 or higher
+- Composer
+- MySQL
+- Git
 
-## Learning Laravel
+## Local Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 1. Clone the repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/rahulyts5/url-shortener.git
+cd url-shortener
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Install dependencies
 
-## Contributing
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Copy environment file
 
-## Code of Conduct
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Configure database
 
-## Security Vulnerabilities
+Open `.env` file and update the database section:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=url_shortener
+DB_USERNAME=root
+DB_PASSWORD=root
+```
 
-## License
+### 5. Create database
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+mysql -u root -e "CREATE DATABASE url_shortener;"
+```
+
+### 6. Run migrations
+
+```bash
+php artisan migrate
+```
+
+### 7. Seed the database
+
+```bash
+php artisan db:seed
+```
+
+This will create one company and three users with different roles.
+
+### 8. Start the server
+
+```bash
+php artisan serve
+```
+
+Visit `http://127.0.0.1:8000/login`
+
+---
+
+## Test Credentials
+
+| Role | Email | Password |
+|------|-------|----------|
+| SuperAdmin | superadmin@example.com | password |
+| Admin | admin@example.com | password |
+| Member | member@example.com | password |
+
+---
+
+## Role Permissions
+
+| Action | SuperAdmin | Admin | Member |
+|--------|-----------|-------|--------|
+| Create short URL | No | Yes | Yes |
+| View all URLs | Yes - all companies | Yes - own company only | Yes - own URLs only |
+| Resolve short URL | Public | Public | Public |
+| Invite Admin | Yes | Yes | No |
+| Invite Member | No | Yes | No |
+
+---
+
+## Features
+
+- Role-based access control (SuperAdmin, Admin, Member)
+- URL shortening with unique short codes
+- Click count tracking
+- Public URL resolution
+- User invitation system
+- Single company system
+
+---
+
+## Running Tests
+
+```bash
+php artisan test
+```
+
+Tests cover:
+- Admin and Member can create short URLs
+- SuperAdmin cannot create short URLs
+- Admin can only see URLs from their own company
+- Member can only see URLs created by themselves
+- Short URLs are publicly resolvable
+
+---
+
+## Project Structure
+
+```
+app/
+  Http/
+    Controllers/
+      AuthController.php       - Login and logout
+      ShortUrlController.php   - URL shortener CRUD
+      InvitationController.php - User invitations
+    Middleware/
+      RoleMiddleware.php       - Role-based route protection
+  Models/
+    User.php
+    Company.php
+    ShortUrl.php
+    Invitation.php
+  Policies/
+    ShortUrlPolicy.php         - URL access policies
+database/
+  migrations/                  - All database migrations
+  seeders/
+    CompanySeeder.php          - Seeds one company
+    UserSeeder.php             - Seeds users for all roles
+routes/
+  web.php                      - All application routes
+resources/
+  views/
+    layouts/
+      app.blade.php            - Main layout with Bootstrap
+    auth/
+      login.blade.php          - Login page
+    urls/
+      index.blade.php          - URL list page
+      create.blade.php         - Create URL page
+    invitations/
+      create.blade.php         - Invite user page
+    dashboard.blade.php        - Dashboard page
+```
+
+---
+
+## AI Tools Used
+
+- Helped explain Laravel authorization logic
+- Helped understand custom middleware implementation
+The project architecture, middleware logic, authorization flow, and implementation decisions were manually developed and reviewed.
