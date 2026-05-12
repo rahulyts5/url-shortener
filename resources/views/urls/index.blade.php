@@ -8,6 +8,10 @@
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
+<div class="mb-3">
+    <a href="/dashboard" class="btn btn-outline-secondary btn-sm">&larr; Back to Dashboard</a>
+</div>
+
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Short URLs</h4>
     @if(auth()->user()->hasRole('admin', 'member'))
@@ -34,7 +38,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $url->original_url }}</td>
                     <td>
-                        <a href="/r/{{ $url->short_code }}">
+                        <a href="/r/{{ $url->short_code }}" target="_blank">
                             {{ $url->short_code }}
                         </a>
                     </td>

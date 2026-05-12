@@ -26,7 +26,7 @@
                                required>
                     </div>
                     <button type="submit" class="btn btn-primary">Generate Short URL</button>
-                    <a href="/urls" class="btn btn-secondary">Cancel</a>
+                    <a href="/urls" class="btn btn-outline-secondary">&larr; Back</a>
                 </form>
 
             </div>

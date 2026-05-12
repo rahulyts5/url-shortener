@@ -23,13 +23,13 @@ Route::middleware(['auth', 'role:admin,member'])->group(function () {
     Route::post('/urls', [ShortUrlController::class, 'store']);
 });
 
-// View urls - all roles except superadmin
+// View urls
 Route::middleware(['auth'])->group(function () {
     Route::get('/urls', [ShortUrlController::class, 'index']);
+    // Resolve short url
+    Route::get('/r/{code}', [ShortUrlController::class, 'resolve']);
 });
 
-// Resolve short url - auth required (NOT public)
-Route::get('/r/{code}', [ShortUrlController::class, 'resolve'])->middleware('auth');
 
 // Invitation routes - superadmin and admin can invite
 Route::middleware(['auth', 'role:superadmin,admin'])->group(function () {

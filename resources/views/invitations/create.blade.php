@@ -74,7 +74,7 @@
                     @endif
 
                     <button type="submit" class="btn btn-primary">Send Invitation</button>
-                    <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+                    <a href="/dashboard" class="btn btn-outline-secondary">&larr; Back</a>
                 </form>
             </div>
         </div>
