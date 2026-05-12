@@ -174,4 +174,5 @@ resources/
 
 - Helped explain Laravel authorization logic
 - Helped understand custom middleware implementation
+- Helped Publicly resolvable
 The project architecture, middleware logic, authorization flow, and implementation decisions were manually developed and reviewed.
