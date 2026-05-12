@@ -59,7 +59,7 @@ class ShortUrlController extends Controller
         return redirect('/urls')->with('success', 'Short URL created successfully.');
     }
 
-    // Publicly resolvable - no auth needed
+    // Publicly resolvable
     public function resolve($code)
     {
         $shortUrl = ShortUrl::where('short_code', $code)->firstOrFail();

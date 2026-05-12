@@ -26,9 +26,10 @@ Route::middleware(['auth', 'role:admin,member'])->group(function () {
 // View urls
 Route::middleware(['auth'])->group(function () {
     Route::get('/urls', [ShortUrlController::class, 'index']);
-    // Resolve short url
-    Route::get('/r/{code}', [ShortUrlController::class, 'resolve']);
 });
+
+// Publicly resolvable short URLs
+Route::get('/r/{code}', [ShortUrlController::class, 'resolve']);
 
 
 // Invitation routes - superadmin and admin can invite

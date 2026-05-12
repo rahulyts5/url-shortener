@@ -26,7 +26,7 @@
                 <tr>
                     <th>#</th>
                     <th>Original URL</th>
-                    <th>Short Code</th>
+                    <th>Short URL</th>
                     <th>Clicks</th>
                     <th>Created By</th>
                     <th>Company</th>
@@ -38,8 +38,8 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $url->original_url }}</td>
                     <td>
-                        <a href="/r/{{ $url->short_code }}" target="_blank">
-                            {{ $url->short_code }}
+                        <a href="{{ url('/r/' . $url->short_code) }}" target="_blank">
+                            {{ url('/r/' . $url->short_code) }}
                         </a>
                     </td>
                     <td>{{ $url->click_count }}</td>
