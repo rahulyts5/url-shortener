@@ -14,7 +14,7 @@ class RoleMiddleware
             return redirect('/login');
         }
 
-        // Check if user's role is allowed
+        // Check if user's role is not allowed
         if (!in_array(auth()->user()->role, $roles)) {
             abort(403, 'Unauthorized. You do not have access to this page.');
         }

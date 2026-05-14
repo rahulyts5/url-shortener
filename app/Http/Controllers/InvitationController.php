@@ -69,23 +69,23 @@ class InvitationController extends Controller
         return back()->with('success', 'User invited successfully.');
     }
 
-    private function canInvite(User $user, string $role, ?int $companyId): bool
-    {
-        // SuperAdmin can invite anyone to any company (existing or new)
-        if ($user->role === 'superadmin') {
-            return true;
-        }
+    // private function canInvite(User $user, string $role, ?int $companyId): bool
+    // {
+    //     // SuperAdmin can invite anyone to any company (existing or new)
+    //     if ($user->role === 'superadmin') {
+    //         return true;
+    //     }
 
-        // Admin can invite admin or member to their own company
-        if ($user->role === 'admin') {
-            if ($companyId && $user->company_id === $companyId && in_array($role, ['admin', 'member'])) {
-                return true;
-            }
-            // Admin cannot invite to other companies or create new companies
-            return false;
-        }
+    //     // Admin can invite admin or member to their own company
+    //     if ($user->role === 'admin') {
+    //         if ($companyId && $user->company_id === $companyId && in_array($role, ['admin', 'member'])) {
+    //             return true;
+    //         }
+    //         // Admin cannot invite to other companies or create new companies
+    //         return false;
+    //     }
 
-        // Members can't invite
-        return false;
-    }
+    //     // Members can't invite
+    //     return false;
+    // }
 }
